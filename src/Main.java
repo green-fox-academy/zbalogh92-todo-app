@@ -11,20 +11,21 @@ import java.util.List;
 
 public class Main {
   private final static String FILE_NAME = "data.csv";
+  private final static String WELCOME_TEXT = "Zsombor's Todo application\n" +
+          "=======================\n" +
+          "\n" +
+          "Command line arguments:\n" +
+          " -l   Lists all the tasks\n" +
+          " -a   Adds a new task\n" +
+          " -r   Removes an task\n" +
+          " -c   Completes or uncompletes a task";
 
   public static void main(String[] args) {
     List<String> todoLines = readLinesFromFile();
     System.out.println(todoLines);
 
     if (args.length == 0) {
-      System.out.println("Zsombor's Todo application\n" +
-              "=======================\n" +
-              "\n" +
-              "Command line arguments:\n" +
-              " -l   Lists all the tasks\n" +
-              " -a   Adds a new task\n" +
-              " -r   Removes an task\n" +
-              " -c   Completes an task");
+      System.out.println(WELCOME_TEXT);
     } else if (args[0].equals("-l") && todoLines.size() != 0) {
       for (int i = 0; i < todoLines.size(); i++) {
         System.out.println(i + 1 + " - " + todoLines.get(i));
@@ -38,7 +39,7 @@ public class Main {
         System.out.println("Unable to remove: no index provided");
       } else if (args.length == 2) {
         try {
-          if (args.length >= Integer.parseInt(args[1])) {
+          if (todoLines.size() >= Integer.parseInt(args[1])) {
             todoLines.remove(Integer.parseInt(args[1]) - 1);
           } else {
             System.out.println("Unable to remove: index is out of bound!");
@@ -54,11 +55,11 @@ public class Main {
         System.out.println("Unable to check: no index provided");
       } else if (args.length == 2) {
         try {
-          if (args.length >= Integer.parseInt(args[1])) {
-            if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals("X")) {
-              todoLines.set(Integer.parseInt(args[1]) - 1, "[ " + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
-            } else if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals(" ")) {
-              todoLines.set(Integer.parseInt(args[1]) - 1, "[X" + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
+          if (todoLines.size() >= Integer.parseInt(args[1])) {
+            if (checkForX(todoLines, args)) {
+              setForSpace(todoLines, args);
+            } else if (checkForSpace(todoLines, args)) {
+              setForX(todoLines, args);
             }
           } else {
             System.out.println("Unable to check: index is out of bound!");
@@ -66,21 +67,29 @@ public class Main {
         } catch (NumberFormatException e) {
           System.out.println("Unable to check: index is not a number");
         }
-      } else if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals("X")) {
-        todoLines.set(Integer.parseInt(args[1]) - 1, "[ " + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
-      } else if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals(" ")) {
-        todoLines.set(Integer.parseInt(args[1]) - 1, "[X" + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
       }
-    } else if (args.length > 0)
-
-    {
+    } else if (args.length > 0) {
       System.out.println("Unsupported argument!");
     }
 
     writeToFile(todoLines);
-
   }
 
+  private static boolean checkForX(List<String> todoLines, String[] args) {
+    return (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals("X"));
+  }
+
+  private static boolean checkForSpace(List<String> todoLines, String[] args) {
+    return (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals(" "));
+  }
+
+  private static void setForSpace(List<String> todoLines, String[] args) {
+    todoLines.set(Integer.parseInt(args[1]) - 1, "[ " + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
+  }
+
+  private static void setForX(List<String> todoLines, String[] args) {
+    todoLines.set(Integer.parseInt(args[1]) - 1, "[X" + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
+  }
 
   private static List<String> readLinesFromFile() {
     Path path = Paths.get(FILE_NAME);
@@ -134,5 +143,6 @@ public class Main {
 //  private static void backToCsv(List<String> todoLines)
 //
 //}
+
 
 
