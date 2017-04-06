@@ -15,7 +15,8 @@ public class Main {
           "=======================\n" +
           "\n" +
           "Command line arguments:\n" +
-          " -l   Lists all the tasks\n" +
+          " -l   Lists the undone tasks\n" +
+          " -la  Lists all the tasks\n" +
           " -a   Adds a new task\n" +
           " -r   Removes a task\n" +
           " -c   Completes or uncompletes a task";
@@ -27,12 +28,18 @@ public class Main {
       System.out.println(WELCOME_TEXT);
     } else if (args[0].equals("-l") && todoLines.size() != 0) {
       for (int i = 0; i < todoLines.size(); i++) {
-        System.out.println(i + 1 + " - " + todoLines.get(i));
+        if (checkForSpaceInFor(todoLines, i)) {
+          System.out.println(i + 1 + " - " + todoLines.get(i));
+        }
       }
     } else if (args[0].equals("-l") && todoLines.size() == 0) {
-      System.out.println("No todos for today! Enjoy your day! :)");
+      System.out.println("No todos for today! Enjoy your day! ༼ つ ▀̿_▀̿ ༽つ");
+    } else if (args[0].equals("-la") && todoLines.size() != 0) {
+      for (int i = 0; i < todoLines.size(); i++) {
+        System.out.println(i + 1 + " - " + todoLines.get(i));
+      }
     } else if (args[0].equals("-a")) {
-      todoLines.add("[ ] " +args[1]);
+      todoLines.add("[ ] " + args[1]);
     } else if (args[0].equals("-r")) {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
@@ -80,6 +87,10 @@ public class Main {
 
   private static boolean checkForSpace(List<String> todoLines, String[] args) {
     return (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals(" "));
+  }
+
+  private static boolean checkForSpaceInFor(List<String> todoLines, int i) {
+    return (todoLines.get(i).substring(1, 2).equals(" "));
   }
 
   private static void setForSpace(List<String> todoLines, String[] args) {
