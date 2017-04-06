@@ -38,23 +38,36 @@ public class Main {
       todoLines.add(args[1]);
     }
     if (args[0].equals("-r")) {
-      todoLines.remove(Integer.parseInt(args[1])-1);
+      if (args.length == 1) {
+        System.out.println("Unable to remove: no index provided");
+      } else if (args.length == 2) {
+        try {
+          if (args.length >= Integer.parseInt(args[1])) {
+            todoLines.remove(Integer.parseInt(args[1]) - 1);
+          } else {
+            System.out.println("Unable to remove: index is out of bound!");
+          }
+        } catch (NumberFormatException e) {
+          System.out.println("Unable to remove: index is not a number");
+        }
+      } else {
+        System.out.println("You can delete only 1 line by 1 argument!");
+      }
+    }
+      writeToFile(todoLines);
     }
 
-    writeToFile(todoLines);
-  }
-
-  private static List<String> readLinesFromFile() {
-    Path path = Paths.get(FILE_NAME);
-    List<String> todoLines;
-    try {
-      todoLines = Files.readAllLines(path);
-    } catch (IOException e) {
-      e.printStackTrace();
-      todoLines = new ArrayList<>();
+    private static List<String> readLinesFromFile () {
+      Path path = Paths.get(FILE_NAME);
+      List<String> todoLines;
+      try {
+        todoLines = Files.readAllLines(path);
+      } catch (IOException e) {
+        e.printStackTrace();
+        todoLines = new ArrayList<>();
+      }
+      return todoLines;
     }
-    return todoLines;
-  }
 
   private static void writeToFile(List<String> data) {
     Path path = Paths.get(FILE_NAME);
