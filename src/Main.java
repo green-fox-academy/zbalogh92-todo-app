@@ -30,10 +30,12 @@ public class Main {
               " -c   Completes an task");
     }
 
-    if (args[0].equals("-l")) {
+    if (args[0].equals("-l") && splittedLines.size() != 0) {
       for (int i = 0; i < splittedLines.size(); i++) {
         System.out.println(i + 1 + " - " + " " + splittedLines.get(i));
       }
+    } else if (args[0].equals("-l") && splittedLines.size() == 0) {
+      System.out.println("No todos for today! Enjoy your day! :)");
     }
   }
 
