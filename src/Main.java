@@ -37,6 +37,9 @@ public class Main {
     if (args[0].equals("-a")) {
       todoLines.add(args[1]);
     }
+    if (args[0].equals("-r")) {
+      todoLines.remove(Integer.parseInt(args[1])-1);
+    }
 
     writeToFile(todoLines);
   }
