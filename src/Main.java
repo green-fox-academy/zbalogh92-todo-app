@@ -25,19 +25,15 @@ public class Main {
               " -a   Adds a new task\n" +
               " -r   Removes an task\n" +
               " -c   Completes an task");
-    }
-
-    if (args[0].equals("-l") && todoLines.size() != 0) {
+    } else if (args[0].equals("-l") && todoLines.size() != 0) {
       for (int i = 0; i < todoLines.size(); i++) {
         System.out.println(i + 1 + " - " + todoLines.get(i));
       }
     } else if (args[0].equals("-l") && todoLines.size() == 0) {
       System.out.println("No todos for today! Enjoy your day! :)");
-    }
-    if (args[0].equals("-a")) {
+    } else if (args[0].equals("-a")) {
       todoLines.add(args[1]);
-    }
-    if (args[0].equals("-r")) {
+    } else if (args[0].equals("-r")) {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
       } else if (args.length == 2) {
@@ -53,20 +49,38 @@ public class Main {
       } else {
         System.out.println("You can delete only 1 line by 1 argument!");
       }
-    }
-    if (args[0].equals("-c")) {
-      if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals("X")) {
+    } else if (args[0].equals("-c")) {
+      if (args.length == 1) {
+        System.out.println("Unable to check: no index provided");
+      } else if (args.length == 2) {
+        try {
+          if (args.length >= Integer.parseInt(args[1])) {
+            if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals("X")) {
+              todoLines.set(Integer.parseInt(args[1]) - 1, "[ " + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
+            } else if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals(" ")) {
+              todoLines.set(Integer.parseInt(args[1]) - 1, "[X" + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
+            }
+          } else {
+            System.out.println("Unable to check: index is out of bound!");
+          }
+        } catch (NumberFormatException e) {
+          System.out.println("Unable to check: index is not a number");
+        }
+      } else if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals("X")) {
         todoLines.set(Integer.parseInt(args[1]) - 1, "[ " + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
       } else if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals(" ")) {
         todoLines.set(Integer.parseInt(args[1]) - 1, "[X" + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
       }
-    } else {
+    } else if (args.length > 0)
+
+    {
       System.out.println("Unsupported argument!");
     }
 
-
     writeToFile(todoLines);
+
   }
+
 
   private static List<String> readLinesFromFile() {
     Path path = Paths.get(FILE_NAME);
