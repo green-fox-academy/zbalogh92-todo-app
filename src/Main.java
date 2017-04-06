@@ -29,7 +29,7 @@ public class Main {
 
     if (args[0].equals("-l") && todoLines.size() != 0) {
       for (int i = 0; i < todoLines.size(); i++) {
-        System.out.println(i + 1 + " - " + " " + todoLines.get(i));
+        System.out.println(i + 1 + " - " + todoLines.get(i));
       }
     } else if (args[0].equals("-l") && todoLines.size() == 0) {
       System.out.println("No todos for today! Enjoy your day! :)");
@@ -53,9 +53,18 @@ public class Main {
       } else {
         System.out.println("You can delete only 1 line by 1 argument!");
       }
+    }
+    if (args[0].equals("-c")) {
+      if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals("X")) {
+        todoLines.set(Integer.parseInt(args[1]) - 1, "[ " + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
+      } else if (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals(" ")) {
+        todoLines.set(Integer.parseInt(args[1]) - 1, "[X" + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
+      }
     } else {
       System.out.println("Unsupported argument!");
     }
+
+
     writeToFile(todoLines);
   }
 
@@ -80,6 +89,24 @@ public class Main {
     }
   }
 }
+//
+//  public void complete() {
+//    this.complete = true;
+//  }
+//
+//  public boolean isCompleted() {
+//    return complete;
+//  }
+//
+//  public void setCompleted(boolean complete) {
+//    this.complete = complete;
+//  }
+//
+//  @Override
+//  public String toString() {
+//    return (complete ? "[x] " : "[ ] ") + name;
+//  }
+//}
 
 //  private static void refactData(List<String> todoLines, List<String> todoLines) {
 //    for (String line : todoLines) {
@@ -93,3 +120,5 @@ public class Main {
 //  private static void backToCsv(List<String> todoLines)
 //
 //}
+
+
