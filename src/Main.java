@@ -13,11 +13,8 @@ public class Main {
   private final static String FILE_NAME = "data.csv";
 
   public static void main(String[] args) {
-    List<String> rawLines = readLinesFromFile();
-    System.out.println(rawLines);
-    List<String> splittedLines = new ArrayList<>();
-    refactData(rawLines, splittedLines);
-    System.out.println(splittedLines);
+    List<String> todoLines = readLinesFromFile();
+    System.out.println(todoLines);
 
     if (args.length == 0) {
       System.out.println("Zsombor's Todo application\n" +
@@ -30,47 +27,51 @@ public class Main {
               " -c   Completes an task");
     }
 
-    if (args[0].equals("-l") && splittedLines.size() != 0) {
-      for (int i = 0; i < splittedLines.size(); i++) {
-        System.out.println(i + 1 + " - " + " " + splittedLines.get(i));
+    if (args[0].equals("-l") && todoLines.size() != 0) {
+      for (int i = 0; i < todoLines.size(); i++) {
+        System.out.println(i + 1 + " - " + " " + todoLines.get(i));
       }
-    } else if (args[0].equals("-l") && splittedLines.size() == 0) {
+    } else if (args[0].equals("-l") && todoLines.size() == 0) {
       System.out.println("No todos for today! Enjoy your day! :)");
     }
+    if (args[0].equals("-a")) {
+      todoLines.add(args[1]);
+    }
+
+    writeToFile(todoLines);
   }
 
   private static List<String> readLinesFromFile() {
     Path path = Paths.get(FILE_NAME);
-    List<String> rawLines;
+    List<String> todoLines;
     try {
-      rawLines = Files.readAllLines(path);
+      todoLines = Files.readAllLines(path);
     } catch (IOException e) {
       e.printStackTrace();
-      rawLines = new ArrayList<>();
+      todoLines = new ArrayList<>();
     }
-    return rawLines;
+    return todoLines;
   }
 
-  private static void refactData(List<String> rawLines, List<String> splittedLines) {
-    for (String line : rawLines) {
-      String[] splittedLine = line.split(";");
-      for (int i = 0; i < splittedLine.length; i++) {
-        splittedLines.add(splittedLine[i]);
-      }
+  private static void writeToFile(List<String> data) {
+    Path path = Paths.get(FILE_NAME);
+    try {
+      Files.write(path, data);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-
-
   }
 }
+
+//  private static void refactData(List<String> todoLines, List<String> todoLines) {
+//    for (String line : todoLines) {
+//      String[] splittedLine = line.split(";");
+//      for (int i = 0; i < splittedLine.length; i++) {
+//        todoLines.add(splittedLine[i]);
+//      }
+//    }
+//  }
 //
-////
-////      String type = splittedLine[0];
-////      String color = splittedLine[1];
-////      double water = Double.valueOf(splittedLine[2]);
-////
-////      if (type.equals("flower")) {
-////        garden.add(new Flower(water, color));
-////      } else if (type.equals("tree")) {
-////        garden.add(new Tree(water, color));
-////      }
-////}
+//  private static void backToCsv(List<String> todoLines)
+//
+//}
