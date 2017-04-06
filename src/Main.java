@@ -53,21 +53,23 @@ public class Main {
       } else {
         System.out.println("You can delete only 1 line by 1 argument!");
       }
+    } else {
+      System.out.println("Unsupported argument!");
     }
-      writeToFile(todoLines);
-    }
+    writeToFile(todoLines);
+  }
 
-    private static List<String> readLinesFromFile () {
-      Path path = Paths.get(FILE_NAME);
-      List<String> todoLines;
-      try {
-        todoLines = Files.readAllLines(path);
-      } catch (IOException e) {
-        e.printStackTrace();
-        todoLines = new ArrayList<>();
-      }
-      return todoLines;
+  private static List<String> readLinesFromFile() {
+    Path path = Paths.get(FILE_NAME);
+    List<String> todoLines;
+    try {
+      todoLines = Files.readAllLines(path);
+    } catch (IOException e) {
+      e.printStackTrace();
+      todoLines = new ArrayList<>();
     }
+    return todoLines;
+  }
 
   private static void writeToFile(List<String> data) {
     Path path = Paths.get(FILE_NAME);
