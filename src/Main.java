@@ -17,12 +17,11 @@ public class Main {
           "Command line arguments:\n" +
           " -l   Lists all the tasks\n" +
           " -a   Adds a new task\n" +
-          " -r   Removes an task\n" +
+          " -r   Removes a task\n" +
           " -c   Completes or uncompletes a task";
 
   public static void main(String[] args) {
     List<String> todoLines = readLinesFromFile();
-    System.out.println(todoLines);
 
     if (args.length == 0) {
       System.out.println(WELCOME_TEXT);
@@ -33,7 +32,7 @@ public class Main {
     } else if (args[0].equals("-l") && todoLines.size() == 0) {
       System.out.println("No todos for today! Enjoy your day! :)");
     } else if (args[0].equals("-a")) {
-      todoLines.add(args[1]);
+      todoLines.add("[ ] " +args[1]);
     } else if (args[0].equals("-r")) {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
