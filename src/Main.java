@@ -1,16 +1,5 @@
 import Todo.Todos;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by zsomb on 2017. 04. 06..
- */
-
 class Main {
   private final static String WELCOME_TEXT = "Zsombor's Todo application\n" +
           "=======================\n" +
