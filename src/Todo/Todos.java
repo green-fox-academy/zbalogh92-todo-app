@@ -43,7 +43,7 @@ public class Todos {
     todoLines.set(index, element);
   }
 
-  public int getSize () {
+  public int getSize() {
     return todoLines.size();
   }
 
@@ -51,11 +51,7 @@ public class Todos {
     return todoLines.get(index);
   }
 
-  public void removeFromList (int index) {
+  public void removeFromList(int index) {
     todoLines.remove(index);
-
-
   }
-
-
 }
