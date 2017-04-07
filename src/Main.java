@@ -1,3 +1,5 @@
+import Todo.Todos;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,31 +24,31 @@ public class Main {
           " -c   Completes or uncompletes a task";
 
   public static void main(String[] args) {
-    List<String> todoLines = readLinesFromFile();
+    Todos todoLines = new Todos();
 
     if (args.length == 0) {
       System.out.println(WELCOME_TEXT);
-    } else if (args[0].equals("-l") && todoLines.size() != 0) {
-      for (int i = 0; i < todoLines.size(); i++) {
+    } else if (args[0].equals("-l") && todoLines.getSize() != 0) {
+      for (int i = 0; i < todoLines.getSize(); i++) {
         if (checkForSpaceInFor(todoLines, i)) {
-          System.out.println(i + 1 + " - " + todoLines.get(i));
+          System.out.println(i + 1 + " - " + todoLines.getTodoLineElement(i));
         }
       }
-    } else if (args[0].equals("-l") && todoLines.size() == 0) {
+    } else if (args[0].equals("-l") && todoLines.getSize() == 0) {
       System.out.println("No todos for today! Enjoy your day! ༼ つ ▀̿_▀̿ ༽つ");
-    } else if (args[0].equals("-la") && todoLines.size() != 0) {
-      for (int i = 0; i < todoLines.size(); i++) {
-        System.out.println(i + 1 + " - " + todoLines.get(i));
+    } else if (args[0].equals("-la") && todoLines.getSize() != 0) {
+      for (int i = 0; i < todoLines.getSize(); i++) {
+        System.out.println(i + 1 + " - " + todoLines.getTodoLineElement(i));
       }
     } else if (args[0].equals("-a")) {
-      todoLines.add("[ ] " + args[1]);
+      todoLines.addToList("[ ] " + args[1]);
     } else if (args[0].equals("-r")) {
       if (args.length == 1) {
         System.out.println("Unable to remove: no index provided");
       } else if (args.length == 2) {
         try {
-          if (todoLines.size() >= Integer.parseInt(args[1])) {
-            todoLines.remove(Integer.parseInt(args[1]) - 1);
+          if (todoLines.getSize() >= Integer.parseInt(args[1])) {
+            todoLines.removeFromList(Integer.parseInt(args[1]) - 1);
           } else {
             System.out.println("Unable to remove: index is out of bound!");
           }
@@ -61,7 +63,7 @@ public class Main {
         System.out.println("Unable to check: no index provided");
       } else if (args.length == 2) {
         try {
-          if (todoLines.size() >= Integer.parseInt(args[1])) {
+          if (todoLines.getSize() >= Integer.parseInt(args[1])) {
             if (checkForX(todoLines, args)) {
               setForSpace(todoLines, args);
             } else if (checkForSpace(todoLines, args)) {
@@ -78,27 +80,27 @@ public class Main {
       System.out.println("Unsupported argument!");
     }
 
-    writeToFile(todoLines);
+    todoLines.writeToFile();
   }
 
-  private static boolean checkForX(List<String> todoLines, String[] args) {
-    return (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals("X"));
+  private static boolean checkForX(Todos todoLines, String[] args) {
+    return (todoLines.getTodoLineElement(Integer.parseInt(args[1]) - 1).substring(1, 2).equals("X"));
   }
 
-  private static boolean checkForSpace(List<String> todoLines, String[] args) {
-    return (todoLines.get(Integer.parseInt(args[1]) - 1).substring(1, 2).equals(" "));
+  private static boolean checkForSpace(Todos todoLines, String[] args) {
+    return (todoLines.getTodoLineElement(Integer.parseInt(args[1]) - 1).substring(1, 2).equals(" "));
   }
 
-  private static boolean checkForSpaceInFor(List<String> todoLines, int i) {
-    return (todoLines.get(i).substring(1, 2).equals(" "));
+  private static boolean checkForSpaceInFor(Todos todoLines, int i) {
+    return (todoLines.getTodoLineElement(i).substring(1, 2).equals(" "));
   }
 
-  private static void setForSpace(List<String> todoLines, String[] args) {
-    todoLines.set(Integer.parseInt(args[1]) - 1, "[ " + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
+  private static void setForSpace(Todos todoLines, String[] args) {
+    todoLines.setList(Integer.parseInt(args[1]) - 1, "[ " + todoLines.getTodoLineElement(Integer.parseInt(args[1]) - 1).substring(2));
   }
 
-  private static void setForX(List<String> todoLines, String[] args) {
-    todoLines.set(Integer.parseInt(args[1]) - 1, "[X" + todoLines.get(Integer.parseInt(args[1]) - 1).substring(2));
+  private static void setForX(Todos todoLines, String[] args) {
+    todoLines.setList(Integer.parseInt(args[1]) - 1, "[X" + todoLines.getTodoLineElement(Integer.parseInt(args[1]) - 1).substring(2));
   }
 
   private static List<String> readLinesFromFile() {
