@@ -11,6 +11,9 @@ class Main {
           " -r   Removes a task\n" +
           " -c   Completes or uncompletes a task";
 
+  private final static String[] MOTIVITIONAL_QUOTES = {"The Way Get Started Is To Quit Talking And Begin Doing.", "The Pessimist Sees Difficulty In Every Opportunity. The Optimist Sees The Opportunity In Every Difficulty.", "Don’t Let Yesterday Take Up Too Much Of Today.", "You Learn More From Failure Than From Success. Don’t Let It Stop You. Failure Builds Character.", "It’s Not Whether You Get Knocked Down, It’s Whether You Get Up." };
+
+
   public static void main(String[] args) {
     Todos todoLines = new Todos();
 
@@ -23,7 +26,7 @@ class Main {
         }
       }
     } else if (args[0].equals("-l") && todoLines.getSize() == 0) {
-      System.out.println("No todos for today! Enjoy your day! ༼ つ ▀̿_▀̿ ༽つ");
+      System.out.println("No todos for today! Enjoy your day!  つ ▀̿_▀̿ つ");
     } else if (args[0].equals("-la") && todoLines.getSize() != 0) {
       for (int i = 0; i < todoLines.getSize(); i++) {
         System.out.println(i + 1 + " - " + todoLines.getTodoLineElement(i));
