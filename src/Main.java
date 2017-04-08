@@ -11,7 +11,8 @@ class Main {
           " -r   Removes a task\n" +
           " -c   Completes or uncompletes a task";
 
-  private final static String[] MOTIVATIONAL_QUOTES = {"The Way Get Started Is To Quit Talking And Begin Doing.", "The Pessimist Sees Difficulty In Every Opportunity. The Optimist Sees The Opportunity In Every Difficulty.", "Don’t Let Yesterday Take Up Too Much Of Today.", "You Learn More From Failure Than From Success. Don’t Let It Stop You. Failure Builds Character.", "It’s Not Whether You Get Knocked Down, It’s Whether You Get Up.", "If You Are Working On Something That You Really Care About, You Don’t Have To Be Pushed. The Vision Pulls You.","People Who Are Crazy Enough To Think They Can Change The World, Are The Ones Who Do." };
+
+  private final static String[] MOTIVATIONAL_QUOTES = {"The Way Get Started Is To Quit Talking And Begin Doing.", "The Pessimist Sees Difficulty In Every Opportunity. The Optimist Sees The Opportunity In Every Difficulty.", "Don’t Let Yesterday Take Up Too Much Of Today.", "You Learn More From Failure Than From Success. Don’t Let It Stop You. Failure Builds Character.", "It’s Not Whether You Get Knocked Down, It’s Whether You Get Up.", "If You Are Working On Something That You Really Care About, You Don’t Have To Be Pushed. The Vision Pulls You.", "People Who Are Crazy Enough To Think They Can Change The World, Are The Ones Who Do."};
 
 
   public static void main(String[] args) {
@@ -25,11 +26,17 @@ class Main {
           System.out.println(i + 1 + " - " + todoLines.getTodoLineElement(i));
         }
       }
+      if (todoLines.getSize() >= 4) {
+        randomQuote();
+      }
     } else if (args[0].equals("-l") && todoLines.getSize() == 0) {
       System.out.println("No todos for today! Enjoy your day!  つ ▀̿_▀̿ つ");
     } else if (args[0].equals("-la") && todoLines.getSize() != 0) {
       for (int i = 0; i < todoLines.getSize(); i++) {
         System.out.println(i + 1 + " - " + todoLines.getTodoLineElement(i));
+      }
+      if (todoLines.getSize() >= 4) {
+        randomQuote();
       }
     } else if (args[0].equals("-a")) {
       todoLines.addToList("[ ] " + args[1]);
@@ -92,5 +99,9 @@ class Main {
 
   public static void setForX(Todos todoLines, String[] args) {
     todoLines.setList(Integer.parseInt(args[1]) - 1, "[X" + todoLines.getTodoLineElement(Integer.parseInt(args[1]) - 1).substring(2));
+  }
+
+  public static void randomQuote() {
+    System.out.println(MOTIVATIONAL_QUOTES[(int) (Math.random() * 7)]);
   }
 }
